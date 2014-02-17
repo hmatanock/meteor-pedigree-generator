@@ -3,22 +3,42 @@
 </head>
 
 <body>
-	{{loginButtons}}
 	<div class='container-fluid'>
+		{{loginButtons}}
 		{{> pedigree}}
 	</div>
 </body>
 
 <template name="pedigree">
+	<h1>Circular Pedigree Generator </h1>
 	{{#if userId}}
-	<h1>Create A Circular Pedigree</h1>
+		{{#if allPeds}}
+			<p>Edit Pedigree</p>
+			{{#each allPeds}}
+				<a>{{startingDog}}</a>
+			{{/each}}
+			or start <input type='button' id='new' class='btn' value='New'></input>
+			<div id="newPed" class="hidden">{{> newPedForm}}</div>
+		{{else}}
+			{{> newPedForm}}
+		{{/if}}
+		<div>
+			{{#if editActive}}
+				<h3>{{currentPedigree}}</h3>
+			{{/if}}
+		</div>
+
+	{{else}}
+		<p>Please login to get started!</p>
+	{{/if}}
+</template>
+
+<template name="newPedForm">
 	<form class='form-inline'>
-		<label for='startingDog'> Enter Dog's Name</label>
-		<input type="text" id='startingDog'></input>
+		<label for='dogName'>Create a pedigree for: </label>
+		<input type="text" id='prefixTitles' placeholder="Prefix Titles"></input>
+		<input type="text" id='dogName' placeholder="Dog Name"></input>
+		<input type="text" id='suffixTitles' placeholder="Suffix Titles"></input>
 		<input type='button' id='start' class='btn' value='start'></input>
 	</form>
-	{{/if}}
-	{{#if curerntPedigree}}
-	<h2>Working on Peigree for {{startingDog}}</h2>
-	{{/if}}
 </template>
